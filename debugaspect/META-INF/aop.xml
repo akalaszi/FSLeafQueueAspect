@@ -2,11 +2,13 @@
 <aspectj>
 
 	<aspects>
-		<aspect name="aspects.AMShareAspect" />
+		<aspect
+			name="org.apache.hadoop.yarn.server.resourcemanager.scheduler.fair.FSLeafQueueAspect" />
 	</aspects>
- 
+
 	<weaver options="-showWeaveInfo -verbose -debug">
-		<include within="org.apache.hadoop.yarn.server.resourcemanager.scheduler.fair.FSAppAttempt" />
+		<include
+			within="org.apache.hadoop.yarn.server.resourcemanager.scheduler.fair.FSAppAttempt" />
 	</weaver>
 
 </aspectj>

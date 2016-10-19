@@ -1,0 +1,13 @@
+<!-- based on http://andrewclement.blogspot.hu/2009/02/load-time-weaving-basics.html -->
+<aspectj>
+
+	<aspects>
+		<aspect name="aspects.AMShareAspect" />
+	</aspects>
+ 
+	<weaver options="-showWeaveInfo -verbose -debug">
+		<include within="org.apache.hadoop.yarn.server.resourcemanager.scheduler.fair.FSAppAttempt" />
+	</weaver>
+
+</aspectj>
+

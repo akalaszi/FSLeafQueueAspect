@@ -14,11 +14,14 @@ https://github.com/apache/hadoop/blob/trunk/hadoop-yarn-project/hadoop-yarn/hado
 
 This aspect prints the maxAMResource and ifRunAMResource to the stderr upon trying to schedule a new ApplicationConainer
 
-###How to Compile Test Environment
+###How to Compile Stub Environment
 - cd testenvironment
 - mvn package
-- java -jar target/fileutilaspect-1.0-SNAPSHOT.jar
-[this will throw the ClassCastException]
+- java -cp target/amshare-test-env-1.0-SNAPSHOT.jar org.apache.hadoop.yarn.server.resourcemanager.scheduler.fair.FSAppAttempt
+this should print: 
+```
+Doing something, that is not logged.
+```
 
 ###How to Install AspectJ 
 - Download latest aspectj jar: https://eclipse.org/aspectj/downloads.php
@@ -30,13 +33,23 @@ This aspect prints the maxAMResource and ifRunAMResource to the stderr upon tryi
 - cd CatalogServiceCatalogAspect/debugaspect/
 - Copy here the two jars from AspectJ: cp /some/dir/aspect/lib/aspectjweaver.jar /some/dir/aspect/lib/aspectjrt.jar .
 - run test.sh or:
-- rm -f aspect.jar;ajc -cp filesystem-test-env-1.0-SNAPSHOT.jar:aspectjrt.jar -outjar aspect.jar src/aspects/*.aj;jar uf aspect.jar META-INF/
-- java -javaagent:aspectjweaver.jar -classpath "aspect.jar:aspectjrt.jar:filesystem-test-env-1.0-SNAPSHOT.jar" org.akalaszi.TestEnv
+```
+rm -f aspect.jar
+ajc -cp ../testenvironment/target/amshare-test-env-1.0-SNAPSHOT.jar:aspectjrt.jar -outjar aspect.jar src/org/apache/hadoop/yarn/server/resourcemanager/scheduler/fair/FSLeafQueueAspect.aj
+jar uf aspect.jar META-INF/
+java -javaagent:aspectjweaver.jar -classpath "aspect.jar:aspectjrt.jar:../testenvironment/target/amshare-test-env-1.0-SNAPSHOT.jar:" org.apache.hadoop.yarn.server.resourcemanager.scheduler.fair.FSAppAttempt
+```
+
+this should print:
+```
+POOL NAME: foo maxAMShare: r:22.0 currentAMShare:r:44.0
+Doing something, that is not logged.
+```
 
 ### Add that to catalogd
 Copy aspect.jar, aspectjrt.jar and aspectjweaver.jar to /tmp on the catalogd host, and temporarily add the followings to:
-- ClouderaManager->Impala->Configuration->Java Configuration Options for Catalog Server: -javaagent:/tmp/aspectjweaver.jar
-- ClouderaManager->Impala->Configuration->Impala Service Environment Advanced Configuration Snippet (Safety Valve)-> AUX_CLASSPATH="/tmp/aspect.jar:/tmp/aspectjrt.jar"
+- ClouderaManager->Yarn->Configuration->Java Configuration Options for ResourceManager: -javaagent:/tmp/aspectjweaver.jar
+- ClouderaManager->Yarn->Configuration->ResourceManager Environment Advanced Configuration Snippet (Safety Valve)-> HADOOP_CLASSPATH=$HADOOP_CLASSPATH:"/tmp/aspect.jar:/tmp/aspectjrt.jar"
 
 ###Links
 - https://eclipse.org/aspectj/doc/next/devguide/ajc-ref.html

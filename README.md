@@ -49,8 +49,8 @@ Doing something, that is not logged.
 ### Add that to Yarn ResourceManager
 Copy aspect.jar, aspectjrt.jar and aspectjweaver.jar to /tmp on the catalogd host, and temporarily add the followings to:
 - ClouderaManager->Yarn->Configuration->Java Configuration Options for ResourceManager: -javaagent:/tmp/aspectjweaver.jar
-- ClouderaManager->Yarn->Configuration->ResourceManager Environment Advanced Configuration Snippet (Safety Valve)-> HADOOP_CLASSPATH=$HADOOP_CLASSPATH:"/tmp/aspect.jar:/tmp/aspectjrt.jar"
-- Disable Fair Scheduler Continuous Scheduling / yarn.scheduler.fair.continuous-scheduling-enabled
+- ClouderaManager->Yarn->Configuration->ResourceManager Environment Advanced Configuration Snippet (Safety Valve)-> YARN_USER_CLASSPATH="/tmp/aspect.jar:/tmp/aspectjrt.jar"
+- Disable Fair Scheduler Continuous Scheduling 
 - Restart YARN
 
 ### Usage

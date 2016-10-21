@@ -46,18 +46,26 @@ POOL NAME: foo maxAMShare: r:22.0 currentAMShare:r:44.0
 Doing something, that is not logged.
 ```
 
-### Add that to catalogd
+### Add that to Yarn ResourceManager
 Copy aspect.jar, aspectjrt.jar and aspectjweaver.jar to /tmp on the catalogd host, and temporarily add the followings to:
 - ClouderaManager->Yarn->Configuration->Java Configuration Options for ResourceManager: -javaagent:/tmp/aspectjweaver.jar
 - ClouderaManager->Yarn->Configuration->ResourceManager Environment Advanced Configuration Snippet (Safety Valve)-> HADOOP_CLASSPATH=$HADOOP_CLASSPATH:"/tmp/aspect.jar:/tmp/aspectjrt.jar"
 - Disable Fair Scheduler Continuous Scheduling / yarn.scheduler.fair.continuous-scheduling-enabled
+- Restart YARN
+
+### Usage
+- ssh to RM host
+- cd /var/run/cloudera-scm-agent/process/<latest>-yarn-RESOURCEMANAGER/logs
+- tail -f stderr.log | grep POOL
+- On every new launch of Yarn applications (spark or MapReduce) the similar should be printed:
+- POOL NAME: root.spark maxAMShare: <memory:3072, vCores:9> currentAMShare:<memory:3072, vCores:3>
 
 ###Links
 - https://eclipse.org/aspectj/doc/next/devguide/ajc-ref.html
 - http://andrewclement.blogspot.hu/2009/02/load-time-weaving-basics.html
 
-###
-Tested with 
-java version "1.8.0_60"
+###Tested with 
+- java version "1.8.0_60"
 Java(TM) SE Runtime Environment (build 1.8.0_60-b27)
 Java HotSpot(TM) 64-Bit Server VM (build 25.60-b23, mixed mode)
+- Hadoop 2.6.0 in CDH 5.7.3

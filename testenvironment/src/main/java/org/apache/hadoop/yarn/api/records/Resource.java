@@ -1,13 +1,13 @@
 package org.apache.hadoop.yarn.api.records;
 
 public class Resource {
-	private float resource;
+	private double resource;
 
-	public Resource(float resource) {
+	public Resource(double resource) {
 		this.resource = resource;
 	}
 
-	public float getResource() {
+	public double getResource() {
 		return resource;
 	}
 

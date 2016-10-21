@@ -8,7 +8,7 @@ public aspect FSLeafQueueAspect {
 
 	before(FSLeafQueue q, Resource amResource): target(q) && args(amResource) && call(public boolean canRunAppAM(Resource)) {
 		try {
-			float maxAMShare = q.scheduler.getAllocationConfiguration().getQueueMaxAMShare(q.getName());
+			double maxAMShare = q.scheduler.getAllocationConfiguration().getQueueMaxAMShare(q.getName());
 			if (Math.abs(maxAMShare - -1.0f) < 0.0001) {
 				return;
 			}

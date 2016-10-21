@@ -9,7 +9,7 @@ public class Resources {
 		return new Resource(0f);
 	}
 
-	public static Resource multiply(Resource fairShare, float maxAMShare) {
+	public static Resource multiply(Resource fairShare, double maxAMShare) {
 		return new Resource(fairShare.getResource() * maxAMShare);
 	}
 

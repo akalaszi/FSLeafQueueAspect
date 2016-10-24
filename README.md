@@ -55,9 +55,11 @@ Copy aspect.jar, aspectjrt.jar and aspectjweaver.jar to /tmp on the catalogd hos
 
 ### Usage
 - ssh to RM host
-- cd /var/run/cloudera-scm-agent/process/<latest>-yarn-RESOURCEMANAGER/logs
+```
+cd /var/run/cloudera-scm-agent/process/<latest>-yarn-RESOURCEMANAGER/logs
+```
 - tail -f stderr.log | grep POOL
-- On every new launch of Yarn applications (spark or MapReduce) the similar should be printed:
+- On every new launch of Yarn applications (Spark or MapReduce) the similar should be printed:
 ```
 POOL NAME: root.spark maxAMShare: <memory:3072, vCores:9> currentAMShare:<memory:3072, vCores:3>
 ```
